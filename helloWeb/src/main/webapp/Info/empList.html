@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>사원번호</th>
+          <th>이름</th>
+          <th>이메일</th>
+          <th>입사일자</th>
+          <th>직무</th>
+          <th>삭제</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <script>
+      fetch("../empListJson")
+        .then((resolve) => resolve.json())
+        .then((result) => {
+          //console.log(result);
+          result.forEach(function (item, idx, arry) {
+            //console.log(item, idx, arry);
+            //DOM 요소 생성.
+
+            let titles = ["id", "firstName", "email", "hireDate", "job"];
+
+            //데이터 건수만큼 반복하기 위한 반복문
+            let tr = document.createElement("tr");
+
+            //columns 개수만큼 반복해주는 곳
+            titles.forEach((title) => {
+              let td = document.createElement("td");
+              td.innerText = item[title];
+              tr.append(td);
+            });
+
+            //삭제버튼
+            let td = document.createElement("td");
+            let btn = document.createElement("button");
+            btn.innerText = "삭제";
+            btn.addEventListener("click", function () {
+              let id = this.parentElement.parentElement.firstChild.innerText;
+              //파라미터 넘길 땐 객체를 생성해줘야한다
+              fetch("../empListJson?del_id=" + id, {
+                method: "DELETE",
+              })
+                .then((resolve) => resolve.json())
+                .then((result) => {
+                  if (result.retCode == "Success") {
+                    alert("정상적으로 삭제되었습니다");
+                    this.parentElement.parentElement.remove();
+                  } else if (result.retCode == "Fail") {
+                    alert("삭제 중 오류발생");
+                  }
+                })
+                .catch((reject) => console.log(reject));
+              this.parentElement.parentElement.remove();
+            });
+            td.append(btn);
+            tr.append(td);
+            list.append(tr);
+          }); //forEach : result 배열에 등록되어있는 값의 개수만큼 function()을 실행
+        })
+        .catch((reject) => {
+          console.log(reject);
+        });
+    </script>
+  </body>
+</html>
