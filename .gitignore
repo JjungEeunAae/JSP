@@ -1,0 +1,6 @@
+/.metadata/
+/.recommenders/
+*.project
+*.classpath
+*.DS_Store
+*.prefs
