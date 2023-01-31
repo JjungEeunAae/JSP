@@ -1,4 +1,9 @@
-/*empList.js*/
+/**
+ * empList.js
+ *
+ * @format
+ */
+
 //목록출력하기
 fetch("../empListJson") //아작스 호출.
   .then((resolve) => resolve.json()) // 가져온 데이터를 제이슨으로 바꿔준다
@@ -13,19 +18,13 @@ fetch("../empListJson") //아작스 호출.
     console.log(reject);
   });
 //저장버튼 submit 이벤트 등록
-document
-  .querySelector('form[name="empForm"]')
-  .addEventListener("submit", addMemberFnc); // 폼 태그중에서 이름이 empForm인것을 가져오겠습니다.
+document.querySelector('form[name="empForm"]').addEventListener("submit", addMemberFnc); // 폼 태그중에서 이름이 empForm인것을 가져오겠습니다.
 
 // 전체선택하는 체크박스 이벤트
-document
-  .querySelector('thead input[type="checkbox"]')
-  .addEventListener("change", allCheckChange);
+document.querySelector('thead input[type="checkbox"]').addEventListener("change", allCheckChange);
 
 //선택삭제하는 체크박스 이벤트
-document
-  .querySelector("#delSelectBtn")
-  .addEventListener("click", deleteCheckedFnc);
+document.querySelector("#delSelectBtn").addEventListener("click", deleteCheckedFnc);
 
 // 데이터 한건을 활용해서 tr이라는 요쇼를 생성.
 function makeTr(item) {
@@ -61,6 +60,7 @@ function makeTr(item) {
   td = document.createElement("td");
   let chk = document.createElement("input");
   chk.setAttribute("type", "checkbox");
+  chk.setAttribute("class", "checkList");
   chk.addEventListener("change", selectBtn);
   td.append(chk);
   tr.append(td);
@@ -138,6 +138,7 @@ function modifyTrFunc() {
   // 수정버튼을 누르면 수정버튼이 변경버튼으로 변경되는 곳
   btn = document.createElement("button");
   btn.innerText = "변경";
+  //btn.disabled = true;
   btn.addEventListener("click", updateMemberFnc); //실행코드( function() )가 들어가면 안된다
   td = document.createElement("td");
   td.append(btn);
@@ -169,23 +170,14 @@ function updateMemberFnc() {
   fetch("../empListJson", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body:
-      "param=update&id=" +
-      id +
-      "&name=" +
-      name +
-      "&email=" +
-      email +
-      "&hire=" +
-      hDate +
-      "&job=" +
-      job,
+    body: "param=update&id=" + id + "&name=" + name + "&email=" + email + "&hire=" + hDate + "&job=" + job,
   })
     .then((resolve) => resolve.text())
     .then((result) => console.log(result))
     .catch((reject) => {
       console.log(reject);
       if (result.indexOf("Success" != -1)) {
+        //한건에 대한 수정을 진행할 때 다른 건은 수정될 수 없도록 만들어주기
         alert("정상적으로 처리되었습니다");
         let newTr = makeTr({
           id: id,
@@ -221,17 +213,7 @@ function addMemberFnc(evnt) {
   fetch("../empListJson", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" }, //파라미터로 key와 value를 넘겨준다
-    body:
-      "param=add&id=" +
-      id +
-      "&name=" +
-      name +
-      "&email=" +
-      email +
-      "&hire=" +
-      hDate +
-      "&job=" +
-      job,
+    body: "param=add&id=" + id + "&name=" + name + "&email=" + email + "&hire=" + hDate + "&job=" + job,
   })
     .then((resolve) => resolve.json()) // 받은 값을 json형식으로 바꿔주는 곳
     .then((result) => {
@@ -269,12 +251,10 @@ function allCheckChange() {
 
 //선택삭제 콜백함수(클릭이벤트)
 function deleteCheckedFnc() {
-  document
-    .querySelectorAll('tbody input[type="checkbox"]:checked')
-    .forEach((chk) => {
-      //삭제처리 같은 기능을 구현하기
-      chk.addEventListener("click", a(chk));
-    });
+  document.querySelectorAll('tbody input[type="checkbox"]:checked').forEach((chk) => {
+    //삭제처리 같은 기능을 구현하기
+    chk.addEventListener("click", a(chk));
+  });
 }
 
 //클릭(선택삭제) 이벤트에 대한 기능
@@ -295,4 +275,19 @@ function a(chk) {
 }
 
 //list checkbox 모두 선택 시 맨 위의 checkbox가 선택되는 장소
-function selectBtn() {}
+function selectBtn() {
+  let checkCount = 0;
+  document.querySelectorAll(".checkList").forEach(function (check) {
+    console.log(check.checked);
+    if (check.checked === false) {
+      checkCount++;
+    }
+  });
+  if (checkCount > 0) {
+    document.getElementById("chk-all").checked = false;
+  } else if (checkCount === 0) {
+    document.getElementById("chk-all").checked = true;
+  }
+  console.log(checkCount);
+}
+//document.querySelectorAll('tbody input[type="checkbox"]:checked')
