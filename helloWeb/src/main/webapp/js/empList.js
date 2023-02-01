@@ -1,8 +1,4 @@
-/**
- * empList.js
- *
- * @format
- */
+/*empList.js*/
 
 //목록출력하기
 fetch("../empListJson") //아작스 호출.

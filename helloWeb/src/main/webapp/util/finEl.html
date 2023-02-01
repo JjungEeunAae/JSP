@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>util/findEl.thml</title>
+    <style>
+      div.outer {
+        background-color: ghostwhite;
+        width: 540px;
+        height: 300px;
+        margin: 5px;
+      }
+      div.inner {
+        display: inline-block;
+        background-color: thistle;
+        height: 30px;
+        width: 100px;
+        margin: 2px;
+        border: 1px solid black;
+        padding: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="list" class="outer"></div>
+    <input type="text" id="search" />
+    <button id="btn">제거하기</button>
+    <a id="demo"></a>
+    <script>
+      //----------------태그생성
+      let words = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor eius, adipisci sequi error quos dolores fugiat animi cupiditate corrupti cum aliquam facilis at a asperiores quod nostrum optio sint accusantium.`;
+      let items = words.split(" ");
+      //console.log(items);
+      items.forEach((w) => {
+        let div = document.createElement("div");
+        div.setAttribute("class", "inner");
+        div.innerText = w;
+        list.append(div);
+      });
+
+      //----------------버튼 이벤트(삭제)
+      btn.addEventListener("click", function () {
+        let divLists = document.querySelectorAll(".inner");
+        let search = document.querySelector("#search");
+        divLists.forEach((w) => {
+          if (w.innerText == search.value) {
+            w.remove();
+          }
+        });
+        search.value = "";
+        search.focus();
+      });
+
+      //----------------시간 구현
+      let time = 3;
+      let sec = "";
+      let timeout = setInterval(function () {
+        sec = time % 60;
+        document.getElementById("demo").innerText = sec + "초";
+        time--;
+
+        if (time < 0) {
+          clearInterval(timeout);
+          document.getElementById("demo").innerText = "시간초과";
+          btn.disabled = true;
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>
