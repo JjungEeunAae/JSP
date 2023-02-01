@@ -1,14 +1,20 @@
 /*empList.js*/
 
 //목록출력하기
+let totalAry = []; //전체목록을 담아놓을 배열 용도
 fetch("../empListJson") //아작스 호출.
   .then((resolve) => resolve.json()) // 가져온 데이터를 제이슨으로 바꿔준다
   .then((result) => {
+    //웹브라우저 추가속성, 값을 지정해주는 것, 윈도우 하위속성
+    localStorage.setItem("total", result.length);
+    totalAry = result;
     //배열관련 메소드: forEach, map, filter, reduce 메소드.
-    result.forEach(function (item, idx, arry) {
-      let tr = makeTr(item); //tr생성 후 반환.
-      list.append(tr);
-    });
+    // result.forEach(function (item, idx, arry) {
+    //   let tr = makeTr(item); //tr생성 후 반환.
+    //   list.append(tr);
+    // });
+    showPages(12);
+    employeeList(12);
   })
   .catch((reject) => {
     console.log(reject);
@@ -385,4 +391,37 @@ function checkAllFun() {
   } else {
     document.querySelector('thead input[type="checkbox"]').checked = false;
   }
+}
+
+//--------------------------------페이지목록
+/* 255건 중 한페이지당 10건으로 치면 1페이지~26페이지
+<< 11p~15p~20p >>
+<< 21p~25~26p
+마지막 26페이지는 5개만 보일 수 있도록 */
+function showPages(curPage = 5) {
+  let endPage = Math.ceil(curPage / 10) * 10; //만약 페이지가 5라면 10
+  let startPage = endPage - 9; //1
+  let realEnd = Math.ceil(255 / 10);
+  endPage = endPage > realEnd ? realEnd : endPage;
+  let paging = document.getElementById("paging");
+  for (let i = startPage; i <= endPage; i++) {
+    let aTag = document.createElement("a");
+    aTag.href = "index.html";
+    aTag.innerText = i;
+    paging.append(aTag);
+  }
+}
+//--------------------------------사원목록
+function employeeList(curPage = 5) {
+  //데이터필터링
+  let end = curPage * 10;
+  let start = end - 9;
+  let newList = totalAry.filter((emp, idx) => {
+    return idx + 1 >= start && idx < end;
+  });
+  let list = document.getElementById("list");
+  newList.forEach((emp) => {
+    let tr = makeTr(emp);
+    list.append(tr);
+  });
 }

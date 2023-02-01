@@ -77,7 +77,7 @@ public class EmpDAO {
 	// List<Map<String, Object>>와 비교
 	public List<EmpVO> empVoList() {
 		connect();
-		sql = "select * from emp_temp";
+		sql = "select * from emp_temp order by 1";
 		List<EmpVO> list = new ArrayList<>();
 		try {
 			stmt = conn.createStatement();
