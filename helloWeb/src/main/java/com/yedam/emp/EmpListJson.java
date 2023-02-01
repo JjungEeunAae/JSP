@@ -1,13 +1,19 @@
 package com.yedam.emp;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @WebServlet("/empListJson")
 public class EmpListJson extends HttpServlet {
@@ -80,17 +86,20 @@ public class EmpListJson extends HttpServlet {
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("del_id"); // 요청페이지에서 del_id로 파라미터를 지정해야한다
+		// {id:101,retCode:Success or Fail} => map
+		Map<String, Object> map = new HashMap<>();
+		map.put("id", id);
 
 		EmpDAO dao = new EmpDAO();
 		if (dao.deleteEmp(Integer.parseInt(id)) > 0) {
-			// 제이슨 형식으로 넘겨준다
-			// {"retCode" : "Success"}
-			resp.getWriter().print("{\"retCode\" : \"Success\"}");
+			map.put("retCode", "Success");
 		} else {
-			// {"retCode" : "Fail"}
-			resp.getWriter().print("{\"retCode\" : \"Fail\"}");
+			map.put("retCode", "Fail");
 		}
-
+		// map 데이터타입을 json으로 변환
+		// 추가한 라이브러리 사용
+		Gson gson = new GsonBuilder().create();
+		resp.getWriter().print(gson.toJson(map));
 	}
 
 	@Override

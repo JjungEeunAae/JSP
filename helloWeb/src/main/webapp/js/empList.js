@@ -18,13 +18,19 @@ fetch("../empListJson") //아작스 호출.
     console.log(reject);
   });
 //저장버튼 submit 이벤트 등록
-document.querySelector('form[name="empForm"]').addEventListener("submit", addMemberFnc); // 폼 태그중에서 이름이 empForm인것을 가져오겠습니다.
+document
+  .querySelector('form[name="empForm"]')
+  .addEventListener("submit", addMemberFnc); // 폼 태그중에서 이름이 empForm인것을 가져오겠습니다.
 
 // 전체선택하는 체크박스 이벤트
-document.querySelector('thead input[type="checkbox"]').addEventListener("change", allCheckChange);
+document
+  .querySelector('thead input[type="checkbox"]')
+  .addEventListener("change", allCheckChange);
 
 //선택삭제하는 체크박스 이벤트
-document.querySelector("#delSelectBtn").addEventListener("click", deleteCheckedFnc);
+document
+  .querySelector("#delSelectBtn")
+  .addEventListener("click", deleteCheckedFnc);
 
 // 데이터 한건을 활용해서 tr이라는 요쇼를 생성.
 function makeTr(item) {
@@ -44,7 +50,7 @@ function makeTr(item) {
   let td = document.createElement("td");
   let btn = document.createElement("button");
   btn.innerText = "삭제";
-  btn.addEventListener("click", deleteRowFunc); // click이벤트가 실행되면 deleteRowFunc이 실행.
+  btn.addEventListener("click", deleteRowFunc);
   td.append(btn);
   tr.append(td);
 
@@ -61,7 +67,7 @@ function makeTr(item) {
   let chk = document.createElement("input");
   chk.setAttribute("type", "checkbox");
   chk.setAttribute("class", "checkList");
-  chk.addEventListener("change", selectBtn);
+  chk.addEventListener("change", checkAllFun);
   td.append(chk);
   tr.append(td);
 
@@ -170,7 +176,17 @@ function updateMemberFnc() {
   fetch("../empListJson", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: "param=update&id=" + id + "&name=" + name + "&email=" + email + "&hire=" + hDate + "&job=" + job,
+    body:
+      "param=update&id=" +
+      id +
+      "&name=" +
+      name +
+      "&email=" +
+      email +
+      "&hire=" +
+      hDate +
+      "&job=" +
+      job,
   })
     .then((resolve) => resolve.text())
     .then((result) => console.log(result))
@@ -213,7 +229,17 @@ function addMemberFnc(evnt) {
   fetch("../empListJson", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" }, //파라미터로 key와 value를 넘겨준다
-    body: "param=add&id=" + id + "&name=" + name + "&email=" + email + "&hire=" + hDate + "&job=" + job,
+    body:
+      "param=add&id=" +
+      id +
+      "&name=" +
+      name +
+      "&email=" +
+      email +
+      "&hire=" +
+      hDate +
+      "&job=" +
+      job,
   })
     .then((resolve) => resolve.json()) // 받은 값을 json형식으로 바꿔주는 곳
     .then((result) => {
@@ -249,14 +275,16 @@ function allCheckChange() {
   });
 }
 
-//선택삭제 콜백함수(클릭이벤트)
-function deleteCheckedFnc() {
-  document.querySelectorAll('tbody input[type="checkbox"]:checked').forEach((chk) => {
-    //삭제처리 같은 기능을 구현하기
-    chk.addEventListener("click", a(chk));
-  });
+//------------------------------------------------------------선택삭제 콜백함수(클릭이벤트)
+//첫번째 방식, 이 방식으로 하면 잘안된다고 하심
+function deleteCheckedFnc1() {
+  document
+    .querySelectorAll('tbody input[type="checkbox"]:checked')
+    .forEach((chk) => {
+      //삭제처리 같은 기능을 구현하기
+      chk.addEventListener("click", a(chk));
+    });
 }
-
 //클릭(선택삭제) 이벤트에 대한 기능
 function a(chk) {
   let chkbox = chk.parentElement.parentElement.firstChild.innerText;
@@ -274,6 +302,46 @@ function a(chk) {
     .catch((reject) => console.log(reject));
 }
 
+//fetch API -> 비동기방식 => 동기식으로 처리하겠다라고 해주는게(async(함수앞에), await(프라미스 객체에만 사용가능))
+async function deleteCheckedFnc() {
+  let ids = [];
+  let chks = document.querySelectorAll('#list input[type="checkbox"]:checked');
+
+  for (let i = 0; i < chks.length; i++) {
+    let id = chks[i].parentElement.parentElement.firstChild.innerText;
+    let resp = await fetch("../empListJson?del_id=" + id, {
+      method: "DELETE",
+    });
+    let json = await resp.json();
+    console.log(json);
+    ids.push(json);
+  }
+  console.log("ids>>>>", ids);
+  //새로고침(바로 반영해주는 방법)
+  processAfterFetch(ids); //[{id:101,retCode:Success or Fail},{}...]
+}
+
+//ary => 별 뜻 없다, ary라는 변수가 배열이라는 뜻
+function processAfterFetch(ary = []) {
+  let targetTr = document.querySelectorAll("#list tr");
+  targetTr.forEach((tr) => {
+    for (let i = 0; i < ary.length; i++) {
+      if (tr.children[0].innerText == ary[i].id) {
+        if (ary[i].retCode == "Success") {
+          tr.remove(); // 성공 조건하에 삭제진행
+        } else {
+          //속성을 추가한 이유는 스타일 반영을 위함이다
+          tr.setAttribute("class", "delError");
+        }
+      }
+    }
+  });
+}
+//------------------------------------------------------------------------------
+
+//--------------------------------리스트 체크박스 동작
+
+//본인/class,id이용
 //list checkbox 모두 선택 시 맨 위의 checkbox가 선택되는 장소
 function selectBtn() {
   let checkCount = 0;
@@ -291,3 +359,34 @@ function selectBtn() {
   console.log(checkCount);
 }
 //document.querySelectorAll('tbody input[type="checkbox"]:checked')
+
+//지연이/DOM 이용
+function countCheck() {
+  let check =
+    document.querySelector("thead").children[0].children[7].children[0];
+  let count = document.querySelectorAll(
+    'tbody input[type = "checkbox"]'
+  ).length;
+  let i = document.querySelectorAll(
+    'tbody input[type = "checkbox"]:checked'
+  ).length;
+  if (count == i) {
+    check.checked = true;
+  } else {
+    check.checked = false;
+  }
+}
+
+//교수님 / 전체선택 체크박스 - 개별 체크박스 동기화
+function checkAllFun() {
+  let allTr = document.querySelectorAll("tbody#list tr");
+  let chkTr = document.querySelectorAll(
+    'tbody#list input[type="checkbox"]:checked'
+  );
+  //console.log(allTr.length, chkTr.length);
+  if (allTr.length == chkTr.length) {
+    document.querySelector('thead input[type="checkbox"]').checked = true;
+  } else {
+    document.querySelector('thead input[type="checkbox"]').checked = false;
+  }
+}

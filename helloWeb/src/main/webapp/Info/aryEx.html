@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Info/aryEx.html</title>
+  </head>
+  <body>
+    <div id="show">
+      <table border="1">
+        <thead id="head"></thead>
+        <tbody id="list"></tbody>
+      </table>
+    </div>
+    <script>
+      //console.log("aaa");
+      const fruits = [
+        { name: "apple", price: 100, like: 3.4 },
+        { name: "banana", price: 200, like: 3.0 },
+        { name: "cherry", price: 300, like: 5.0 },
+      ];
+      const titles = ["과일", "가격", "선호도"];
+      titles.forEach((title) => {
+        let th = document.createElement("th");
+        th.innerText = title;
+        head.append(th);
+      });
+
+      fruits.forEach((fruit, idx, ary) => {
+        if (fruit.like > 3.0) {
+          let tr = document.createElement("tr");
+          for (let prop in fruit) {
+            let td = document.createElement("td");
+            td.innerText = fruit[prop];
+            tr.append(td);
+          }
+          list.append(tr);
+        }
+      });
+    </script>
+  </body>
+</html>
