@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardDAO {
-	String url = "jdbc:oracle:thin:@192.168.0.9:1521:xe";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	String user = "dev";
 	String pass = "dev";
 	Connection conn;

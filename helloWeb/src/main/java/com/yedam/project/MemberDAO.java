@@ -14,7 +14,7 @@ import java.util.Map;
 import oracle.net.aso.r;
 
 public class MemberDAO {
-	String url = "jdbc:oracle:thin:@192.168.0.9:1521:xe";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	String user = "dev";
 	String pass = "dev";
 	Connection conn;
