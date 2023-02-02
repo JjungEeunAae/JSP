@@ -13,7 +13,9 @@
 //   });
 
 //회원가입
-document.querySelector('form[name="signUpForm"]').addEventListener("submit", addMemberFnc);
+document
+  .querySelector('form[name="signUpForm"]')
+  .addEventListener("submit", addMemberFnc);
 function addMemberFnc(e) {
   e.preventDefault();
   console.log("Print");
@@ -29,7 +31,21 @@ function addMemberFnc(e) {
   fetch("../member", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" }, //파라미터로 key와 value를 넘겨준다
-    body: "id=" + id + "&pw=" + pw + "&name=" + name + "&addr=" + addr + "&tel=" + tel + "&birth=" + birth + "&mail=" + mail,
+    body:
+      "id=" +
+      id +
+      "&pw=" +
+      pw +
+      "&name=" +
+      name +
+      "&addr=" +
+      addr +
+      "&tel=" +
+      tel +
+      "&birth=" +
+      birth +
+      "&mail=" +
+      mail,
   })
     .then((resolve) => resolve.json())
     .then((result) => {
