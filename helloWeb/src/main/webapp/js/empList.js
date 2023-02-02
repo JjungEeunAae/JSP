@@ -13,26 +13,43 @@ fetch("../empListJson") //아작스 호출.
     //   let tr = makeTr(item); //tr생성 후 반환.
     //   list.append(tr);
     // });
-    showPages(12);
-    employeeList(12);
+
+    //-----> select option 이벤트가 있기 전에 사용했던 함수
+    //showPages(1); // 첫페이지부터 보여줘야한다
+    //employeeList(1); //첫번째 목록부터 보여줘야한다
+
+    //정의한 이벤트를 실행할 때 dispatchEvent(정의한 이벤트) 활용
+    //매개값은 이벤트 객체이다. '',""가 먹히지 않는다
+    document.querySelector("#pageCnt").dispatchEvent(chgEvent);
   })
   .catch((reject) => {
     console.log(reject);
   });
-//저장버튼 submit 이벤트 등록
+//-----------------저장버튼 submit 이벤트 등록
 document
   .querySelector('form[name="empForm"]')
-  .addEventListener("submit", addMemberFnc); // 폼 태그중에서 이름이 empForm인것을 가져오겠습니다.
+  .addEventListener("submit", addMemberFnc);
 
-// 전체선택하는 체크박스 이벤트
+//-----------------전체선택하는 체크박스 이벤트
 document
   .querySelector('thead input[type="checkbox"]')
   .addEventListener("change", allCheckChange);
 
-//선택삭제하는 체크박스 이벤트
+//-----------------선택삭제하는 체크박스 이벤트
 document
   .querySelector("#delSelectBtn")
   .addEventListener("click", deleteCheckedFnc);
+
+//------------------select option 이벤트
+//건수 수정 후 새로고침하면 그 전에 건수가 고정되어 있음
+//그 부분을 예외처리해주는 장소, 새로고침하면 10건으로 고정되어 목록이 나온다
+let chgEvent = new Event("change");
+document.getElementById("pageCnt").addEventListener("change", function () {
+  localStorage.setItem("page", this.value);
+  //옵션 누를 때 마다 첫페이지 및 페이지 수에 해당되는 목록을 보여준다
+  showPages(1); // 첫페이지부터 보여줘야한다
+  employeeList(1); //첫번째 목록부터 보여줘야한다
+});
 
 // 데이터 한건을 활용해서 tr이라는 요쇼를 생성.
 function makeTr(item) {
@@ -399,23 +416,71 @@ function checkAllFun() {
 << 21p~25~26p
 마지막 26페이지는 5개만 보일 수 있도록 */
 function showPages(curPage = 5) {
+  //페이지 클릭하면 보여지는 페이지 목록들을 추가(append)하지말고 지운다
+  document.querySelectorAll("#paging a").forEach((item) => item.remove());
+
+  //데이터베이스에 있는 전체 건수를 담아놓은 속성을 가져왔음
+  let totalCount = parseInt(localStorage.getItem("total"));
+  let select = parseInt(localStorage.getItem("page"));
+
   let endPage = Math.ceil(curPage / 10) * 10; //만약 페이지가 5라면 10
   let startPage = endPage - 9; //1
-  let realEnd = Math.ceil(255 / 10);
+  let realEnd = Math.ceil(totalCount / select);
+  let prev, next; //이전 페이지 목록이 있는지 다음 페이지 목록이 있는지 체크하기 위함의 변수
+
   endPage = endPage > realEnd ? realEnd : endPage;
+  prev = startPage > 1 ? true : false; //이전 페이지가 존재한다라는 의미
+  next = endPage < realEnd ? true : false; //마지막 페이지가
+
   let paging = document.getElementById("paging");
+
+  //링크 테이블을 더 넣어주는 장소 , prev&next
+  if (prev) {
+    //페이지가 있다는 의미
+    let aTag = document.createElement("a");
+    aTag.addEventListener("click", showListPages); //각 페이지마다 데이터를 보이게 해주는 곳
+    aTag.href = "#";
+    aTag.page = startPage - 1;
+    //aTag.innerText = startPage - 1;
+    aTag.innerHTML = "&laquo";
+    paging.append(aTag);
+  }
+
   for (let i = startPage; i <= endPage; i++) {
     let aTag = document.createElement("a");
-    aTag.href = "index.html";
+    aTag.addEventListener("click", showListPages); //각 페이지마다 데이터를 보이게 해주는 곳
+    aTag.href = "#";
     aTag.innerText = i;
+    aTag.page = i; //page 속성 : innerText 속성이 페이지 값을 가지고 있었으나, <<,>> 모양은 사용되지 않아서 사용
+    if (i == curPage) {
+      aTag.className = "active"; //aTag.setAttribute('class','active')
+    }
+    paging.append(aTag);
+  }
+
+  if (next) {
+    //페이지가 있다는 의미
+    let aTag = document.createElement("a");
+    aTag.addEventListener("click", showListPages); //각 페이지마다 데이터를 보이게 해주는 곳
+    aTag.href = "#";
+    aTag.page = endPage + 1;
+    aTag.innerHTML = "&raquo";
+    //aTag.innerText = endPage + 1;
     paging.append(aTag);
   }
 }
+
 //--------------------------------사원목록
 function employeeList(curPage = 5) {
+  //페이지를 클릭할 시 목록들을 추가(append)하지말고 지워지면서 변경된다
+  document.querySelectorAll("#list tr").forEach((item) => item.remove());
+
+  let select = parseInt(localStorage.getItem("page"));
+  console.log(select);
+
   //데이터필터링
-  let end = curPage * 10;
-  let start = end - 9;
+  let end = curPage * select; //25번까지
+  let start = end - (select - 1); //21번부터
   let newList = totalAry.filter((emp, idx) => {
     return idx + 1 >= start && idx < end;
   });
@@ -424,4 +489,14 @@ function employeeList(curPage = 5) {
     let tr = makeTr(emp);
     list.append(tr);
   });
+}
+
+//--------------------------------페이지 클릭하면 페이지 목록 및 사원목록이 보이는 곳
+function showListPages(e) {
+  //pointerEvent 발생, target:a, target하위속성:innerText:클릭한 대상의 문자
+  console.log(e.target.innerText);
+  //페이지 속성을 사용
+  let page = e.target.page;
+  showPages(page); //페이지목록
+  employeeList(page); //사원목록
 }

@@ -54,7 +54,7 @@ public class mamber extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setCharacterEncoding("utf-8");
-		resp.setContentType("text/html;charset=UTF-8");
+		resp.setContentType("text/json;charset=UTF-8");
 		List<MemberVO> list = dao.VoList();
 		String json = "[";
 		for(int i = 0 ; i < list.size(); i++) {
