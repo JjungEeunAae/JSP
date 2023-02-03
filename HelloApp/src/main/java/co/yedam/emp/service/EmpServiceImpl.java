@@ -14,4 +14,20 @@ public class EmpServiceImpl implements EmpService{
 		return dao.empList();
 	}
 
+	@Override
+	public int addEmp(EmpVO emp) {
+		//한건 입력하는 기능을 EmpDAO에 등록해줘야함
+		return dao.insertEmp(emp);
+	}
+
+	@Override
+	public EmpVO getEmp(int empId) {
+		return dao.searchEmp(empId);
+	}
+
+//	@Override
+//	public int modEmp(EmpVO emp) {
+//		return dao.updateEmp(emp);
+//	}
+
 }
