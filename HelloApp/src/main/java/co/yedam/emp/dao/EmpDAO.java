@@ -23,14 +23,34 @@ public class EmpDAO extends DAO { // DAO 상속
 
 	// -------------------------------------------------------------------------
 	// 아이디 값을 읽어서 수정하는 기능(수정)
-//	public int updateEmp(EmpVO emp) {
-//		
-//	}
+	public int updateEmp(EmpVO emp) {
+		connect();
+		sql = "update emp_temp"
+			+ " set last_name = ?, email = ?, hire_date = ? , job_id = ?"
+			+ " where employee_id = ?";
+		int r = 0;
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, emp.getLastName());
+			psmt.setString(2, emp.getEmail());
+			psmt.setString(3, emp.getHireDate());
+			psmt.setString(4, emp.getJodId());
+			psmt.setInt(5, emp.getEmployeeId());
+			
+			r = psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return r;
+	}
 	
 	// 아이디를 넣으면 한건 조회해오는 기능(단건조회)
 	public EmpVO searchEmp(int empId) {
 		connect();
-		sql = "select * from emp_temp where employee_id = ?";
+		sql = "select employee_id, first_name, email, job_id, TO_CHAR(hire_date,'YYYY-MM-DD') AS hire_date from emp_temp where employee_id = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, empId);
@@ -40,7 +60,7 @@ public class EmpDAO extends DAO { // DAO 상속
 				EmpVO emp = new EmpVO();
 				emp.setEmployeeId(rs.getInt("employee_id"));
 				emp.setFirstName(rs.getString("first_name"));
-				emp.setLastName(rs.getString("last_name"));
+				//emp.setLastName(rs.getString("last_name"));
 				emp.setEmail(rs.getString("email"));
 				emp.setJodId(rs.getString("job_id"));
 				emp.setHireDate(rs.getString("hire_date"));
@@ -81,7 +101,9 @@ public class EmpDAO extends DAO { // DAO 상속
 	public List<EmpVO> empList() {
 		List<EmpVO> emps = new ArrayList<>();
 		connect();
-		sql = "select * from emp_temp order by employee_id";
+		sql = "select employee_id, last_name, email, job_id, TO_CHAR(hire_date,'YYYY-MM-DD') AS hire_date"
+				+ " from emp_temp"
+				+ " order by employee_id";
 		// psmt : 쿼리를 실행하고 실행한 결과를 반환한다
 		try {
 			psmt = conn.prepareStatement(sql);
@@ -89,7 +111,7 @@ public class EmpDAO extends DAO { // DAO 상속
 			while (rs.next()) {
 				EmpVO emp = new EmpVO();
 				emp.setEmployeeId(rs.getInt("employee_id")); // "" -> 칼럼이름
-				emp.setFirstName(rs.getString("first_name"));
+				//emp.setFirstName(rs.getString("first_name"));
 				emp.setLastName(rs.getString("last_name"));
 				emp.setEmail(rs.getString("email"));
 				emp.setJodId(rs.getString("job_id"));
