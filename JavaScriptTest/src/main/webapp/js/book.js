@@ -54,7 +54,7 @@ document
   .querySelector("div[id='btns']")
   .children[0].addEventListener("click", addFnc);
 
-function addFnc(e) {
+function addFnc() {
   let bookCode = document.getElementById("bookCode").value;
   let bookName = document.getElementById("bookName").value;
   let author = document.getElementById("author").value;
@@ -69,5 +69,5 @@ function addFnc(e) {
 
   list = document.querySelectorAll("#list td").length;
 
-  list.forEach((a) => {});
+  document.querySelectorAll("#list td")[1].innerText = bookCode;
 }
