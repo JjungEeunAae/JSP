@@ -19,16 +19,20 @@ pageEncoding="UTF-8"%>
     <td><%=emp.getEmployeeId() %></td>
   </tr>
   <tr>
-    <th>fistName</th>
+    <th>FistName</th>
     <td><%=emp.getFirstName() %></td>
   </tr>
     <tr>
+    <th>LastName</th>
+    <td><%=emp.getLastName() %></td>
+  </tr>
+  <tr>
     <th>이메일</th>
     <td><%=emp.getEmail() %></td>
   </tr>
     <tr>
     <th>직무</th>
-    <td><%=emp.getJodId() %></td>
+    <td><%=emp.getJobId() %></td>
   </tr>
     <tr>
     <th>입사일자</th>
@@ -38,7 +42,9 @@ pageEncoding="UTF-8"%>
   	<td colspan="2" align="center">
   		<button class="btn btn-primary"
   			onclick="location.href='empModForm.do?id=<%=emp.getEmployeeId() %>'">수정</button>
-  		<button class="btn btn-warning">삭제</button>
+  		<button class="btn btn-warning" 
+  			onclick="location.href='empRemove.do?id=<%=emp.getEmployeeId() %>'" >삭제</button>
+  		<!-- empRemove.do?id=?, removeEmp(int id) -->
  	 </td>
   </tr>
   

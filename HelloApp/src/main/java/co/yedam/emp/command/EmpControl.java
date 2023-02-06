@@ -47,7 +47,7 @@ public class EmpControl implements Command {
 			EmpVO emp = new EmpVO();
 			emp.setEmployeeId(Integer.parseInt(eid));
 			emp.setLastName(lName);
-			emp.setJodId(jod);
+			emp.setJobId(jod);
 			emp.setHireDate(hire);
 			emp.setEmail(mail);
 

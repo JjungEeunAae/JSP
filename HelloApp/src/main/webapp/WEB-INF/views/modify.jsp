@@ -1,21 +1,30 @@
 
+<%@page import="java.util.Map.Entry"%>
 <%@page import="co.yedam.emp.service.EmpServiceImpl"%>
 <%@page import="co.yedam.emp.service.EmpService"%>
 <%@page import="co.yedam.emp.vo.EmpVO"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <jsp:include page="../includes/header.jsp"></jsp:include>
 <%
 EmpVO emp = (EmpVO) request.getAttribute("updateVO");
+Map<String, String> list = (Map<String, String>)request.getAttribute("jobList");
 %>
 <h4>!!현재 페이지는 empModForm.do의 결과 modify.jsp입니다!!</h4>
-<form action="empModify.do" method="post" name="addFrm">
+<form action="./empModify.do" method="post" name="addFrm">
 	<table class="table">
 		<tr>
 			<td>사원번호</td>
 			<td><input type="text" value="<%=emp.getEmployeeId()%>"
 				name="upEid" readonly></td>
+				<!--name => url 파라미터 이름-->
+		</tr>
+		<tr>
+			<td>FirstName</td>
+			<td><input type="text" value="<%=emp.getFirstName()%>"
+				name="fname"></td>
 		</tr>
 		<tr>
 			<td>LastName</td>
@@ -28,13 +37,18 @@ EmpVO emp = (EmpVO) request.getAttribute("updateVO");
 		</tr>
 		<tr>
 			<td>직무</td>
-			<td><input type="text" name="jobInput" id="jobInput" value="<%=emp.getJodId()%>">
+			<td><input type="text" name="jobInput" id="jobInput" value="<%=emp.getJobId()%>">
 				<select name="job" onchange="func(this.value)">
-					<option value="" selected>선택하세요</option>
-					<option value="IT_PROG">개발자</option>
-					<option value="SA_REP">영업사원</option>
-					<option value="SA_MAN">영업팀장</option>
-			</select></td>
+					<%
+						//Entry => 키와 벨류를 구분해주는 메소드
+					for (Entry<String, String> ent : list.entrySet()) {
+					%>
+						<option value="<%=ent.getKey() %>"><%=ent.getValue() %></option>
+					<%
+					}
+					%>
+				</select>
+			</td>
 		</tr>
 		<tr>
 			<td>입사일자</td>

@@ -1,36 +1,43 @@
+<%@page import="java.util.Map.Entry"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <jsp:include page="../includes/header.jsp"></jsp:include>
+<%
+//Key : job_id, value : job_title
+Map<String, String> list = (Map<String, String>)request.getAttribute("jobList");
+%>
 <form action="employee.do" method="post" name="myFrm">
 	<table class="table">
 		<tr>
-			<td><label>사원번호 : </label> <input type="number" name="eid" /></td>
+			<th><label>사원번호 : </label></th>
+			<td><input type="number" name="eid" /></td>
 		</tr>
 		<tr>
+			<th><label>LastName : </label></th>
+			<td><input type="text" name="last_name" /></td>
+		</tr>
+		<tr>
+			<th><label>이메일 : </label></th>
+   			<td><input type="email" name="email" /></td>
+		</tr>
+		<tr>
+			<th><label>입사일자 : </label></th>
+    		<td><input type="date" name="hire_date" /></td>
+		</tr>
+		<tr>
+			<th><label>직무 : </label></th>
 			<td>
-				<label>LastName : </label>
-				<input type="text" name="last_name" />
-			</td>
-		</tr>
-		<tr>
-   			<td>
-				<label>이메일 : </label>
-				<input type="email" name="email" />
-			</td>
-		</tr>
-		<tr>
-    		<td>
-				<label>입사일자 : </label>
-				<input type="date" name="hire_date" />
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label>직무 : </label>
 				<select name="job">
-					<option value="IT_PROG">개발자</option>
-					<option value="SA_REP" selected>영업사원</option>
-					<option value="SA_MAN">영업팀장</option>
+					<%
+						//Entry => 키와 벨류를 구분해주는 메소드
+					for (Entry<String, String> ent : list.entrySet()) {
+					%>
+						<option value="<%=ent.getKey() %>"><%=ent.getValue() %></option>
+					<%
+					}
+					%>
 				</select>
 			</td>
 		</tr>

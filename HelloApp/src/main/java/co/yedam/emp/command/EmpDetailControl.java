@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
-import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 import co.yedam.emp.vo.EmpVO;
 
 public class EmpDetailControl implements Command {
@@ -18,7 +18,8 @@ public class EmpDetailControl implements Command {
 		// 상세조회 : service -> serviceImpl(구현객체) -> dao(처리)
 		String id = req.getParameter("eid");
 		
-		EmpService service = new EmpServiceImpl();
+		//EmpService service = new EmpServiceImpl(); //jdbc
+		EmpService service = new EmpServiceMybatis();
 		EmpVO emp = service.getEmp(Integer.parseInt(id));
 		
 		//아이디 값을 searchVO라는 속성을 생성
