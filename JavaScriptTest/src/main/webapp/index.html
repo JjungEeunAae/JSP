@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+</style>
+</head>
+
+<body>
+	<div id="show">
+		<h3>도서목록 페이지</h3>
+		<hr>
+			<div id="titles">
+				<label class="field">도서코드</label> <input type="text" id="bookCode"><br>
+				<label class="field">도서명</label> <input type="text" id="bookName"><br>
+				<label class="field">저자</label> <input type="text" id="author"><br>
+				<label class="field">출판사</label> <input type="text" id="press"><br>
+				<label class="field">금액</label> <input type="text" id="price"><br>
+			</div>
+			<div id="btns">
+				<button type="button">저장</button>
+				<br>
+				<button type="button" id="checkDel">선택삭제</button>
+			</div>
+			<table id="tbl" border="1">
+				<thead id="title">
+				<tr>
+				<th><input type="checkbox"></th>
+				<th>도서코드</th>
+				<th>도서명</th>
+				<th>저자</th>
+				<th>출판사</th>
+				<th>가격</th>
+				<th>삭제</th>
+				</tr>
+				</thead>
+				<tbody id="list"></tbody>
+			</table>
+	</div>
+	<script src="js/book.js"></script>
+</body>
+
+</html>
