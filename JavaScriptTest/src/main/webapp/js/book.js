@@ -49,7 +49,9 @@ bookList.forEach((book) => {
 });
 
 //저장기능
-document.querySelector("div[id='btns']").children[0].addEventListener("click", addFnc);
+document
+  .querySelector("div[id='btns']")
+  .children[0].addEventListener("click", addFnc);
 function addFnc() {
   let bookCode = document.getElementById("bookCode").value;
   let bookName = document.getElementById("bookName").value;
@@ -124,7 +126,9 @@ function deleteBtn(e) {
 }
 
 //전체선택 체크박스
-document.querySelector("thead input[type='checkbox']").addEventListener("change", allCheckBox);
+document
+  .querySelector("thead input[type='checkbox']")
+  .addEventListener("change", allCheckBox);
 function allCheckBox() {
   //console.log(this.checked); //t or f
   document.querySelectorAll("#list input[type='checkbox']").forEach((chk) => {
@@ -147,9 +151,11 @@ function checkAllFnc() {
 //클릭(선택삭제) 이벤트 기능
 document.querySelector("#checkDel").addEventListener("click", delChkFnc);
 function delChkFnc() {
-  document.querySelectorAll("tbody input[type='checkbox']:checked").forEach((chk) => {
-    chk.addEventListener("click", selectDelFnc(chk));
-  });
+  document
+    .querySelectorAll("tbody input[type='checkbox']:checked")
+    .forEach((chk) => {
+      chk.addEventListener("click", selectDelFnc(chk));
+    });
 }
 function selectDelFnc(chk) {
   chk.parentElement.parentElement.remove();

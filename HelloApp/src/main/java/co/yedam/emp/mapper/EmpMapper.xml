@@ -15,4 +15,24 @@
 	<select id ="getEmp" resultType="co.yedam.emp.vo.EmpVO" parameterType="int">
 		select * from emp_temp where employee_id = #{empId}
 	</select>
+	
+	<insert id="addEmp" parameterType="co.yedam.emp.vo.EmpVO">
+		insert into emp_temp(employee_id, last_name, email, hire_date, job_id) values(#{employeeId},#{lastName},#{email},#{hireDate},#{jobId})
+	</insert>
+	
+	<select id="jobList" resultType="map">
+		select job_id as "jobId", 
+				job_title as "jobTitle" 
+		from jobs order by job_id
+	</select>
+	
+	<update id="modEmp" parameterType="co.yedam.emp.vo.EmpVO">
+		update emp_temp 
+		set first_name = #{firstName}, last_name = #{lastName}, email = #{email}, hire_date = #{hireDate} , job_id = #{jobId} 
+		where employee_id = #{employeeId}
+	</update>
+	
+	<delete id="removeEmp" parameterType="int">
+		delete from emp_temp where EMPLOYEE_ID = #{id}
+	</delete>
 </mapper>

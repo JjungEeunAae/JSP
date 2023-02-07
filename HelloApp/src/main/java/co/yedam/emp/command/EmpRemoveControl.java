@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
 import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 
 public class EmpRemoveControl implements Command {
 
@@ -13,7 +14,8 @@ public class EmpRemoveControl implements Command {
 	public void exec(HttpServletRequest req, HttpServletResponse resp) {
 		String id = req.getParameter("id");
 		//삭제처리 : EmpService -> EmpServiceImpl -> EmpDAO
-		EmpService service = new EmpServiceImpl();
+		//EmpService service = new EmpServiceImpl();
+		EmpService service = new EmpServiceMybatis();
 		int r = service.removeEmp(Integer.parseInt(id));
 		
 		try {

@@ -17,43 +17,57 @@ pageEncoding="UTF-8"%>
     <link href="css/styles.css" rel="stylesheet" />
   </head>
   <body>
+  	<%
+  		String id = (String)session.getAttribute("id");
+  	%>
     <div class="d-flex" id="wrapper">
       <!-- Sidebar-->
       <div class="border-end bg-white" id="sidebar-wrapper">
         <div class="sidebar-heading border-bottom bg-light">
           <a href="main.do">HelloApp</a>
+          <%if(id != null){ %>
+          	<sapn><%=id %></sapn>
+          <%} else{%>
+			  <sapn>Guest</sapn>
+          <%} %>
         </div>
         <div class="list-group list-group-flush">
           <a
             class="list-group-item list-group-item-action list-group-item-light p-3"
             href="empList.do"
-            >사원목록페이지</a
-          >
+            >사원목록페이지</a>
+          <%if(id != null){ %>
+          	<a
+	            class="list-group-item list-group-item-action list-group-item-light p-3"
+	            href="empForm.do"
+            >사원등록페이지</a>
+          	<a
+	            class="list-group-item list-group-item-action list-group-item-light p-3"
+	            href="logout.do"
+            >로그아웃</a>
+          <%} else{%>
+			<a
+	            class="list-group-item list-group-item-action list-group-item-light p-3"
+	            href="loginForm.do"
+            >로그인</a>
+            <a
+	            class="list-group-item list-group-item-action list-group-item-light p-3"
+	            href="signOnForm.do"
+            >회원가입</a>
+          <%} %>
+
           <a
             class="list-group-item list-group-item-action list-group-item-light p-3"
-            href="empForm.do"
-            >사원등록페이지</a
-          >
+            href="memberList.do"
+            >회원목록</a>
           <a
             class="list-group-item list-group-item-action list-group-item-light p-3"
             href="#!"
-            >Overview</a
-          >
+            >Profile</a>
           <a
             class="list-group-item list-group-item-action list-group-item-light p-3"
             href="#!"
-            >Events</a
-          >
-          <a
-            class="list-group-item list-group-item-action list-group-item-light p-3"
-            href="#!"
-            >Profile</a
-          >
-          <a
-            class="list-group-item list-group-item-action list-group-item-light p-3"
-            href="#!"
-            >Status</a
-          >
+            >Status</a>
         </div>
       </div>
       <!-- Page content wrapper-->

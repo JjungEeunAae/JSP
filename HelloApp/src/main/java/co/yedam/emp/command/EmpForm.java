@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
 import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 
 public class EmpForm implements Command {
 
@@ -17,6 +18,7 @@ public class EmpForm implements Command {
 	public void exec(HttpServletRequest req, HttpServletResponse resp) {
 		//-------------직무리스트
 		EmpService service = new EmpServiceImpl();
+		//EmpService service = new EmpServiceMybatis();
 		//문자열로 받아올려면 String
 		Map<String, String> jobList = service.jobList();
 		req.setAttribute("jobList", jobList);

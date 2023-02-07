@@ -13,7 +13,7 @@ import co.yedam.emp.vo.EmpVO;
 //EmpServiceMybatis : mybatis
 public class EmpServiceMybatis implements EmpService{
 	SqlSessionFactory sessionFactory = DataSource.getInstance();
-	SqlSession session = sessionFactory.openSession();
+	SqlSession session = sessionFactory.openSession(true);
 
 	@Override
 	public List<EmpVO> empList() {
@@ -23,7 +23,14 @@ public class EmpServiceMybatis implements EmpService{
 
 	@Override
 	public int addEmp(EmpVO emp) {
-		return 0;
+		//session.commit();
+		int r =  session.insert("co.yedam.emp.mapper.EmpMapper.addEmp",emp);
+		if(r>0) {
+			session.commit();
+		} else {
+			session.rollback();
+		}
+		return r;
 	}
 
 	@Override
@@ -31,22 +38,22 @@ public class EmpServiceMybatis implements EmpService{
 		return session.selectOne("co.yedam.emp.mapper.EmpMapper.getEmp", empId);
 	}
 
+	//건수수정
 	@Override
 	public int modEmp(EmpVO emp) {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.update("co.yedam.emp.mapper.EmpMapper.modEmp",emp);
 	}
-
+	
+	//직무리스트
 	@Override
 	public Map<String, String> jobList() {
-		// TODO Auto-generated method stub
-		return null;
+		return null; //session.selectmap("co.yedam.emp.mapper.EmpMapper.jobList");
 	}
-
+	
+	//건수삭제
 	@Override
 	public int removeEmp(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return session.delete("co.yedam.emp.mapper.EmpMapper.removeEmp",id);
 	}
 
 }

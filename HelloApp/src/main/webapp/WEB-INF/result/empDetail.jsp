@@ -9,6 +9,7 @@ pageEncoding="UTF-8"%>
   EmpVO emp = (EmpVO) request.getAttribute("searchVO"); 
   Integer age = (Integer) request.getAttribute("myAge");
   String id = (String) request.getAttribute("loginId");
+  String login = (String)session.getAttribute("id");
 %>
 
  Attribute test : <%=age %>,<%=id %>
@@ -39,13 +40,18 @@ pageEncoding="UTF-8"%>
     <td><%=emp.getHireDate() %></td>
   </tr>
   <tr>
-  	<td colspan="2" align="center">
-  		<button class="btn btn-primary"
-  			onclick="location.href='empModForm.do?id=<%=emp.getEmployeeId() %>'">수정</button>
-  		<button class="btn btn-warning" 
-  			onclick="location.href='empRemove.do?id=<%=emp.getEmployeeId() %>'" >삭제</button>
-  		<!-- empRemove.do?id=?, removeEmp(int id) -->
- 	 </td>
+    <%if(login != null){ %>
+   	  	<td colspan="2" align="center">
+			<button class="btn btn-primary"
+				onclick="location.href='empModForm.do?id=<%=emp.getEmployeeId() %>'">수정</button>
+			<button class="btn btn-warning" 
+				onclick="location.href='empRemove.do?id=<%=emp.getEmployeeId() %>'" >삭제</button>
+			<!-- empRemove.do?id=?, removeEmp(int id) -->
+ 		</td>
+    <%} else{%>
+  		<td colspan="2" align="center">읽기전용</td>
+    <%} %>
+
   </tr>
   
 </table>

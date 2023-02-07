@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
 import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 import co.yedam.emp.vo.EmpVO;
 
 public class EmpControl implements Command {
@@ -43,6 +44,7 @@ public class EmpControl implements Command {
 			String jod = req.getParameter("job");
 			String hire = req.getParameter("hire_date");
 			String mail = req.getParameter("email");
+			
 
 			EmpVO emp = new EmpVO();
 			emp.setEmployeeId(Integer.parseInt(eid));
@@ -52,7 +54,8 @@ public class EmpControl implements Command {
 			emp.setEmail(mail);
 
 			// 서비스 로직
-			EmpService service = new EmpServiceImpl();
+			//EmpService service = new EmpServiceImpl();
+			EmpService service = new EmpServiceMybatis();
 			int r = service.addEmp(emp);
 			
 			//요청 재지정

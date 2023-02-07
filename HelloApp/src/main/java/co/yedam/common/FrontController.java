@@ -18,7 +18,12 @@ import co.yedam.emp.command.EmpModControl;
 import co.yedam.emp.command.EmpModFormControl;
 import co.yedam.emp.command.EmpRemoveControl;
 import co.yedam.emp.command.ServiceControl;
-import co.yedam.emp.command.loginControl;
+import co.yedam.member.command.LoginFormControl;
+import co.yedam.member.command.LogoutControl;
+import co.yedam.member.command.MemberListControl;
+import co.yedam.member.command.SignOnControl;
+import co.yedam.member.command.SignOnFormControl;
+import co.yedam.member.command.loginControl;
 
 @WebServlet("*.do")
 public class FrontController extends HttpServlet{
@@ -34,8 +39,7 @@ public class FrontController extends HttpServlet{
 		//첫페이지 지정
 		map.put("/main.do", new MainControl());
 		map.put("/service.do", new ServiceControl());
-		map.put("/login.do", new loginControl());
-		map.put("errorPage.do", new ErrorPage());
+		map.put("/errorPage.do", new ErrorPage());
 		//get방식: 목록출력,(json), post방식 : 입력처리 / emp_temp 활용
 		map.put("/employee.do", new EmpControl());
 		//xxxForm.do : 페이지오픈
@@ -50,6 +54,20 @@ public class FrontController extends HttpServlet{
 		map.put("/empModify.do", new EmpModControl());
 		//삭제처리하는 페이지
 		map.put("/empRemove.do", new EmpRemoveControl());
+		
+		//----------회원관리
+		//로그인화면페이지
+		map.put("/loginForm.do", new LoginFormControl());
+		//로그인처리
+		map.put("/login.do", new loginControl());
+		//로그아웃처리
+		map.put("/logout.do", new LogoutControl());
+		//회원가입화면페이지
+		map.put("/signOnForm.do", new SignOnFormControl());
+		//회원가입처리
+		map.put("/signon.do", new SignOnControl());
+		//회원목록페이지
+		map.put("/memberList.do", new MemberListControl());
 	}
 	
 	@Override
