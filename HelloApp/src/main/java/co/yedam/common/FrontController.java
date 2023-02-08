@@ -21,6 +21,7 @@ import co.yedam.emp.command.ServiceControl;
 import co.yedam.member.command.LoginFormControl;
 import co.yedam.member.command.LogoutControl;
 import co.yedam.member.command.MemberListControl;
+import co.yedam.member.command.MyPageControl;
 import co.yedam.member.command.SignOnControl;
 import co.yedam.member.command.SignOnFormControl;
 import co.yedam.member.command.loginControl;
@@ -68,6 +69,8 @@ public class FrontController extends HttpServlet{
 		map.put("/signon.do", new SignOnControl());
 		//회원목록페이지
 		map.put("/memberList.do", new MemberListControl());
+		//마이페이지
+		map.put("/myPageForm.do", new MyPageControl());
 	}
 	
 	@Override

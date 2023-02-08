@@ -17,4 +17,8 @@
 	<select id="memberList" resultType="MemberVO">
 		select * from members order by member_id
 	</select>
+				<!-- parameterType="java.Lang.String" = "string" -->
+	<select id="getMember" parameterType="string" resultType="MemberVO">
+		select * from members where member_id=#{id}
+	</select>
 </mapper>
