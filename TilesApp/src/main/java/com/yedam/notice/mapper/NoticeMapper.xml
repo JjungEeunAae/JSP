@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.notice.mapper.NoticeMapper">
+  <select id="selectList" resultType="NoticeVO">
+    SELECT * FROM tal_notice ORDER BY notice_id desc
+  </select>
+    
+   <select id="searchOne" resultType="NoticeVO">
+   	SELECT * FROM tal_notice WHERE notice_id=#{nid}
+   </select>
+   
+   <insert id="insertNotice" parameterType="NoticeVO">
+    INSERT INTO tal_notice (notice_id, notice_writer, notice_title, notice_subject, attach_file)
+	VALUES(notice_seq.nextval, #{noticeWriter}, #{noticeTitle}, #{noticeSubject}, #{attachFile})
+   </insert>
+   
+   <update id="updateNotice" parameterType="NoticeVO">
+   	UPDATE tal_notice
+   	SET notice_title=#{noticeTitle}
+   		,notice_subject=#{noticeSubject}
+   	WHERE notice_id=#{noticeId}
+   </update>
+   
+   <delete id="deleteNotice" parameterType="int">
+   	DELETE FROM tal_notice where notice_id=#{nid}
+   </delete>
+   
+   <!-- 조회수 증가 -->
+   <update id="increaseCnt" parameterType="int">
+   	UPDATE tal_notice
+   	SET hit_count = hit_count + 1
+   	WHERE notice_id = #{uid}
+   	</update>
+</mapper>

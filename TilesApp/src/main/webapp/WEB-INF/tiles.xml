@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<!-- tiles Test -->
+	<definition name="myapp.homepage"
+		template="/layouts/classic.jsp">
+		<put-attribute name="title"
+			value="Tiles tutorial homepage" />
+		<put-attribute name="header" value="/tiles/banner.jsp" />
+		<put-attribute name="menu"
+			value="/tiles/common_menu.jsp" />
+		<put-attribute name="body" value="/tiles/home_body.jsp" />
+		<put-attribute name="footer" value="/tiles/credits.jsp" />
+	</definition>
+	<!-- main/main.tiles(*/*) 요청이 들어오면 열어서 body 부분에 대신 넣어서 구성하겠다 -->
+	<definition name="WILDCARD:other/*" extends="myapp.homepage">
+		<put-attribute name="body" value="/WEB-INF/views/other/{1}.jsp" />
+	</definition>
+	
+	<!-- tiles 실용 -->
+	<definition name="myapp.app" template="/WEB-INF/layout/template.jsp">
+		<put-attribute name="title" value="Tiles Page" />
+		<put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/layout/menu.jsp" />
+		<put-attribute name="body" value="/WEB-INF/layout/body.jsp" />
+	</definition>
+	<definition name="WILDCARD:*/*" extends="myapp.app">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+</tiles-definitions>
