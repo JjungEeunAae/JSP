@@ -48,7 +48,7 @@
 </table>
 <script>
 	let nid = ${vo.noticeId}; //게시글 번호
-	let logid = '${id}';
+	let logid = '${id}';	   //login.java(Control) 속성의 Key 값
 	fetch('replyList.do?nid='+nid)
 		.then(resolve => resolve.json())
 		.then(result => {

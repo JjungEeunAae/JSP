@@ -31,6 +31,7 @@ public class Login implements Command {
 		
 		if(rvo != null) {
 			//로그인 성공하면 mypage로 이동
+			//session
 			HttpSession session = req.getSession(); //요청정보를 가져온다(쿠키정보(key,value))
 			//웹브라우저를 닫기 전까지는 계속 유지한다
 			session.setAttribute("id", rvo.getMemberId());

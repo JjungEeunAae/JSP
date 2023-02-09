@@ -39,7 +39,7 @@ public class AddReply implements Command {
 		Gson gson = new GsonBuilder()
 						.setDateFormat("yyyy-MM-dd HH:mm:ss")
 						.create();
-		String json = gson.toJson(vo); //vo 媛앹껜 => json�룷留룸�寃�
+		String json = gson.toJson(vo); //vo => json
 		
 		return json + ".json";
 	}
