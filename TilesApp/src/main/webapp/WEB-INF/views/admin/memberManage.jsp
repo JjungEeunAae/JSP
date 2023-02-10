@@ -23,7 +23,7 @@
 	</tr>
 	<tr>
 		<th>이미지</th>
-		<td><input type="file" id="mimage" ></td>
+		<td><input type="file" id="mimage" multiple></td>
 	</tr>
 	<tr>
 		<td colspan="2" align="center">

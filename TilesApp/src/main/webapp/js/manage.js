@@ -2,30 +2,31 @@
  * manage.js
  */
 console.log("manage.js start.....!");
-//???? 사용준비가 되면 실행(실행시점)
+//$(document).ready ==> html or xml부터 실행하고 함수를 실행한다
+//ajax는 비동기 함수, 실행시점을 달리 해주는 이벤트
 $(document).ready(function(){
 	//##################################################
-	let clone = $('#template').clone(true);
-	console.log(clone.find('tr')); //tr의 하위요소
-	let tr = clone.find('tr');
-	tr.find('.name').val('test');
-	$('#list').append(tr);
+	/*let clone = $('#template').clone(true);
+	//console.log(clone.find('tr')); //tr의 하위요소
+	//let tr = clone.find('tr');
+	//tr.find('.name').val('test');
+	$('#list').append(tr);*/
 	
 	//##################################################
 	//목록을 가져오는 Ajax 호출
 	console.log($('#list'));
 	$.ajax({
-	url: 'memberList.do',
-	success: function(result){
-		console.log(result);
-		//제이쿼리 forEach 
-		$(result).each(function(idx, item){ //인덱스, 인덱스에 들어있는 값
-			$('#list').append(makeRow(item)); //화면출력
-		})
-	},
-	error: function(reject){
-		console.log(reject);
-	}
+		url: 'memberList.do',
+		success: function(result){
+			console.log(result);
+			//제이쿼리 forEach 
+			$(result).each(function(idx, item){ //인덱스, 인덱스에 들어있는 값
+				$('#list').append(makeRow(item)); //화면출력
+			})
+		},
+		error: function(reject){
+			console.log(reject);
+		}
 	});
 	
 	//등록버튼 이벤트
@@ -35,7 +36,9 @@ $(document).ready(function(){
 		let phone = $('#mphone').val();
 		let addr = $('#maddr').val();
 		let img = $('#mimage')[0].files[0];
+		console.log(img);
 		
+		//
 		let formData = new FormData();
 		formData.append('id', id);
 		formData.append('name', name);
@@ -140,12 +143,11 @@ function makeRow(member={}){
 //수정버튼
 function updateMemberFnc(e){
 	//ModifyMember.do 사용자 정보 수정기능
+	//console.log(tr.find('input.name').val()); class 지정한 input 불러올 때
+	//console.log(tr.children()); //tr의 하위요소(input)을 읽어옴
 	let tr = $(e.target).parent().parent(); //tr
 	console.log("권한 ", tr.find('td:nth-of-type(5) input').val());//하위요소를 찾고싶다면?
 	console.log("id ", tr.children().eq(0).text());
-	//console.log(tr.find('input.name').val()); class 지정한 input 불러올 때
-	
-	//console.log(tr.children()); //tr의 하위요소(input)을 읽어옴
 	let id = tr.children().eq(0).text();
 	let name = tr.find('td:nth-of-type(2) input').val();
 	let phone = tr.find('td:nth-of-type(3) input').val();
@@ -163,6 +165,7 @@ function updateMemberFnc(e){
 		success: function(result){
 			console.log(result);
 			if(result.retCode == 'Success'){
+				//tr에 덮어씌운다(목록출력(성공값));
 				tr.replaceWith(makeRow(result.member));
 			} else{
 				alert("입력 미완");

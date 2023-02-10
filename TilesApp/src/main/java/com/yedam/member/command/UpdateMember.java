@@ -19,13 +19,16 @@ public class UpdateMember implements Command {
 
 	@Override
 	public String exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//$.ajax > data > key를 읽어온다
 		String id = req.getParameter("id");
 		String name = req.getParameter("name");
 		String phone = req.getParameter("phone");
 		String addr = req.getParameter("addr");
 		String auth = req.getParameter("resp");
 		
+		//DB 접근
 		MemberService service = new MemberSeriviceMybatis();
+		//클라이언트 요청정보를 받아온다
 		MemberVO m = new MemberVO();
 		
 		m.setMemberId(id);
@@ -39,8 +42,7 @@ public class UpdateMember implements Command {
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("member", m);
 		Gson gson = new GsonBuilder().create();
-
-		//System.out.println(mid);
+		
 		if(service.modifyMember(m) > 0) {
 			resultMap.put("retCode", "Success");
 		} else {

@@ -94,11 +94,13 @@ public class FrontController extends HttpServlet{
 		
 		if(viewPage.endsWith(".tiles")) {
 			//Control return 값이 .tiles 이면
+			//.jsp, view page
 			RequestDispatcher rd = req.getRequestDispatcher(viewPage);
 			rd.forward(req, resp);
 		} else if(viewPage.endsWith(".do")) {
 			//Control return 값이 .do 이면
 			//리스트 페이지로 이동
+			//control class에 해당되는 .do url로 이동
 			resp.sendRedirect(viewPage);
 		} else if(viewPage.endsWith(".json")) {
 			//Control return 값이 .json이면
