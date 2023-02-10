@@ -5,27 +5,26 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.yedam.common.Command;
-
 import com.yedam.member.service.MemberSeriviceMybatis;
 import com.yedam.member.service.MemberService;
-import com.yedam.member.vo.MemberVO;
 
-public class MyPageControl implements Command {
-	
+public class RemoveMember implements Command {
+
 	@Override
 	public String exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		String id = (String) session.getAttribute("id");
+		String mid = req.getParameter("id");
 		
 		MemberService service = new MemberSeriviceMybatis();
-		//리턴타입 MemberVO
-		MemberVO mvo = service.getMember(id);
-		
-		req.setAttribute("vo", mvo);
-		
-		return "member/mypage.tiles";
+		String json = "";
+		//System.out.println(mid);
+		if(service.removeMember(mid) > 0) {
+			json = "{\"retCode\":\"Success\"}";
+		} else {
+			json = "{\"retCode\":\"Fail\"}";
+		}
+		return json + ".json";
 	}
+
 }

@@ -24,7 +24,31 @@
 	
 	<update id="updateMember" parameterType="MemberVO">
 	 UPDATE members
-	 SET member_name=#{memberName}, member_pw=#{memberPw}, member_phone=#{memberPhone}, member_addr=#{memberAddr}
+	 <set> 
+		 <if test="image != null">
+		 	image = #{image},
+		 </if>
+		 <if test="memberName != null">
+		 	member_name = #{memberName},
+		 </if>
+		 <if test="memberPw != null">
+		 	member_pw = #{memberPw},
+		 </if>
+		 <if test="memberPhone != null">
+		 	member_phone = #{memberPhone},
+		 </if>
+		 <if test="memberAddr != null">
+		 	member_addr = #{memberAddr},
+		 </if>
+		 <if test="responsibility != null">
+		 	responsibility = #{responsibility}
+		 </if>
+	 </set>
 	 WHERE member_id=#{memberId}
 	</update>
+	
+	<!-- 회원삭제 -->
+	<delete id="deleteMember" parameterType="String">
+	 delete from members where member_id = #{mid}
+	</delete>
 </mapper>

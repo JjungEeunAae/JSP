@@ -58,7 +58,20 @@ public class FrontController extends HttpServlet{
 		map.put("/logout.do", new LogoutControl());
 		//회원 정보수정
 		map.put("/modifyMember.do", new ModifyMember());
+		//이미지 업로드
+		map.put("/imageUpload.do", new ImageUpload());
 		
+		// 관리자 관련-----------------------------------
+		//관리자 회원관리 페이지
+		map.put("/memberManageForm.do", new MemberManage());
+		//회원 리스트
+		map.put("/memberList.do", new MemberList());
+		//회원 등록
+		map.put("/addMember.do", new AddMember());
+		//회원삭제
+		map.put("/removeMember.do", new RemoveMember());
+		//회원정보수정
+		map.put("/updateMember.do", new UpdateMember());
 	}
 	
 	@Override

@@ -28,24 +28,29 @@ public class Login implements Command {
 		MemberService service = new MemberSeriviceMybatis();
 		MemberVO rvo = service.login(member);
 		
+		String page = "";
 		
 		if(rvo != null) {
 			//로그인 성공하면 mypage로 이동
 			//session
 			HttpSession session = req.getSession(); //요청정보를 가져온다(쿠키정보(key,value))
+			
+			MemberVO mvo = service.getMember(id);
 			//웹브라우저를 닫기 전까지는 계속 유지한다
-			session.setAttribute("id", rvo.getMemberId());
-			session.setAttribute("name", rvo.getMemberName());
+			session.setAttribute("id", mvo.getMemberId());
+			session.setAttribute("name", mvo.getMemberName());
+			session.setAttribute("Auth", mvo.getResponsibility()); //관리자 권한
+			
+			page="mypage";
 			
 			MemberVO member2 = service.getMember(id);
-			
-			session.setAttribute("vo", member2);
-			return "member/mypage.tiles";
+			req.setAttribute("vo", member2);
 		} else {
 			//로그인 실패하면 다시 로그인 화면으로 이동할 때 "아이디와 패스워드 확인" 안내하기
 			req.setAttribute("result", "회원 정보를 확인하세요!"); //조회 실패시 result 속성을 통해 유저에게 메세지 안내하기
-			return "member/login.tiles";
+			page = "login";
 		}
+		return "member/"+page+".tiles";
 	}
 
 }

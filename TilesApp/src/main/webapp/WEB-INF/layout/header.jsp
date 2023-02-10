@@ -20,10 +20,10 @@
 					<li class="nav-item active"><a class="nav-link" href="main.do">Home</a></li>
 					<c:choose>
 						<c:when test="${!empty id}">
-							<li class="nav-item"><a class="nav-link" href="logout.do">로그아웃(${name})</a></li>
+							<li class="nav-item"><a class="nav-link" href="logout.do">Logout(${name})</a></li>
 						</c:when>
 						<c:otherwise>
-							<li class="nav-item"><a class="nav-link" href="loginForm.do">로그인</a></li>
+							<li class="nav-item"><a class="nav-link" href="loginForm.do">Login</a></li>
 						</c:otherwise>
 					</c:choose>
 					
@@ -33,10 +33,12 @@
 						aria-expanded="false">Dropdown</a>
 						<div class="dropdown-menu dropdown-menu-end"
 							aria-labelledby="navbarDropdown">
-							<c:if test="${!empty id}">
-								<a class="dropdown-item" href="myPageForm.do">마이페이지</a>
+							<c:if test="${!empty Auth}">
+								<a class="dropdown-item" href="myPageForm.do">My Page</a>
 							</c:if>
-							<a class="dropdown-item" href="#!">Another action</a>
+							<c:if test="${Auth == 'admin'}">
+							<a class="dropdown-item" href="memberManageForm.do">Member Manage</a>
+							</c:if>
 							<div class="dropdown-divider">
 						</div>
 							<a class="dropdown-item" href="#!">Something else here</a>
