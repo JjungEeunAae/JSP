@@ -31,6 +31,13 @@ $(document).ready(function(){
 	
 	//등록버튼 이벤트
 	$('#addBtn').on('click',function(){
+		
+		let fileRepository = [];
+		
+		$('input[type="file"]').on('change',function(){
+			fileRepository.push(this.files[0]);
+		});
+		
 		let id = $('#mid').val(); // .val() : element.value 속성을 읽어옴
 		let name = $('#mname').val();
 		let phone = $('#mphone').val();
@@ -44,7 +51,7 @@ $(document).ready(function(){
 		formData.append('name', name);
 		formData.append('phone', phone);
 		formData.append('addr', addr);
-		formData.append('img', img);
+		formData.append('img', fileRepository);
 		
 		$.ajax({
 			url: 'addMember.do',
@@ -146,6 +153,7 @@ function updateMemberFnc(e){
 	//console.log(tr.find('input.name').val()); class 지정한 input 불러올 때
 	//console.log(tr.children()); //tr의 하위요소(input)을 읽어옴
 	let tr = $(e.target).parent().parent(); //tr
+	console.log($(e.target).parent().parent());
 	console.log("권한 ", tr.find('td:nth-of-type(5) input').val());//하위요소를 찾고싶다면?
 	console.log("id ", tr.children().eq(0).text());
 	let id = tr.children().eq(0).text();

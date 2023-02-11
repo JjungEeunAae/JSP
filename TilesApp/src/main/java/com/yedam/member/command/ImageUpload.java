@@ -45,7 +45,7 @@ public class ImageUpload implements Command {
 			MemberService service = new MemberSeriviceMybatis();
 			service.modifyMember(vo);	// DB 정보수정
 			
-			System.out.println(vo);
+			System.out.println("ImageUpload : " + vo);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

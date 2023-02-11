@@ -5,10 +5,7 @@
 <!-- 제이쿼리 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <h3>!!현재 페이지는 myPageForm.do의 결과 mypage.jsp입니다!!</h3>
-<c:if test="${updateResult != null}">
-	<c:out value="${updateResult}"></c:out>
-</c:if>
-<form action="modifyMember.do" method="post">
+<form  id="form" action="modifyMember.do" method="post">
 	<input
 		type="file" id="fileUpload"
 		accept="image/*" style="display:none"
@@ -39,11 +36,50 @@
 			<td><img id="imgSrc" width="150px" src="upload/${vo.image}"></td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center"><input type="submit" value="수정"></td>
-		</tr>
+			<td colspan="2" align="center"><input id="modifyBtn" type="button" onclick="updateMemberFnc(event)" value="수정"></td>
+		</tr> <!-- submit -->
 	</table>
 </form>
 <script>
+	//수정버튼
+	function updateMemberFnc(e){
+		//수정여부 안내매세지
+		if(!window.confirm("수정하시겠습니까?")){
+			//아니요 누르면 멈춘다
+			return;
+		}
+		
+		let id = $('.table').find("input[name='mid']").val();
+		let name = $('.table').find("input[name='mname']").val();
+		let pw = $('.table').find("input[name='mpass']").val();
+		let phone = $('.table').find("input[name='mphone']").val();
+		let addr = $('.table').find("input[name='maddr']").val();
+		
+		$.ajax({
+			url:'modifyMember.do',
+			method: 'post',
+			data: {id: id,
+					name: name,
+					pw: pw,
+					phone: phone,
+					addr: addr
+				   },
+			success: function(result){
+				console.log(result);
+				if(result.retCode == 'Success'){
+					//tr에 덮어씌운다(목록출력(성공값));
+					alert("수정이 완료되었습니다");
+				} else{
+					alert("수정이 되지 않았습니다");
+				}
+			},
+			error: function(err){
+				console.log(err);
+			}
+		})
+	} // end of updateMemberFnc;
+
+
 	//js event 등록 == addEventListener('type',function(){})
 	//jQuery event 등록 == elem.on('click',function(){})
 	$('#imgSrc').on('click',function(){
@@ -87,7 +123,7 @@
 			}
 		});
 		
-	}
+	} // end of imageChangeFnc
 	
 	
 </script>
