@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<style>
+textarea{
+	resize: none;
+	border-radius: 5px;
+	border : none;
+}
+#writer{
+	border:none;
+}
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<h3 align="center">게시글 단건조회</h3>
+<h5 align="center">noticeDetail.do, replyList.do, removeReply.do, addReply.do</h5>
 <table class="table">
 	<tr>
 		<th>글번호</th>
@@ -19,7 +31,7 @@
 	</tr>
 	<tr>
 		<th>내용</th>
-		<td colspan="3"><textarea cols="60" rows="4">${vo.noticeSubject}</textarea></td>
+		<td colspan="3"><textarea cols="60" rows="4" readonly>${vo.noticeSubject}</textarea></td>
 	</tr>
 	<tr>
 		<th>작성일자</th>
@@ -30,22 +42,33 @@
 </table>
 <br />
 <!-- 댓글등록 -->
-<div>
-	<span><b>제목:</b></span><span><input type="text" id="title"></span>
-	<span><b>내용:</b></span><span><input type="text" id="subject"></span>
-	<span><b>작성자:</b></span><span><input type="text" id="writer" value="${id}"></span>
+<div class="input-group mb-3">
+	<span class="input-group-text"><b>ID</b></span>
+	<input type="text" id="writer" value="${id}" readonly class="form-control">
+</div>
+<div class="input-group">
+	<span class="input-group-text"><b>제목</b></span>
+	<input type="text" id="title" class="form-control">
+</div>
+<div class="card-body">
+	<textarea id="subject" class="form-control"></textarea>
+	<br/>
 	<button class="btn btn-primary" id="addReply">댓글등록</button>
 </div>
 <!-- 댓글목록 및 삭제  -->
-<table class="table">
- <thead>
- 	<tr>
- 		<th colspan="4" scope="col">댓글정보</th>
- 	</tr>
- </thead>
- <!-- 댓글 정보 보이는 장소 -->
- <tbody id="list"></tbody>
-</table>
+<div class="card">
+	<div class="card-header"><b>댓글리스트</b></dv>
+		<table class="table" style="background-color:#fff;">
+		<!--<thead>
+		 	<tr>
+		 		<th colspan="4" scope="col">댓글정보</th>
+		 	</tr>
+		 </thead>-->
+		 <!-- 댓글 정보 보이는 장소 -->
+		 <tbody id="list" ></tbody>
+		</table>
+	</div>
+</div>
 <script>
 	let nid = ${vo.noticeId}; //게시글 번호
 	let logid = '${id}';	   //login.java(Control) 속성의 Key 값
@@ -109,6 +132,7 @@
 	
 	//댓글목록
 	function makeTr(reply){
+	console.log(reply);
 		//tr: 댓글번호, 제목, 작성자, 작성일자
 		//tr: 댓글내용
 		
@@ -122,6 +146,7 @@
 								$("<td />").html("<b>작성자:</b> " + reply.replyWriter),
 								$("<td />").html("<b>작성일자:</b> " + reply.replyDate)
 							)
+		console.log(tr1);
 		let tr2 = $('<tr />')
 				.attr('data-id', reply.replyId)
 				.append( $("<td colspan='4' />")

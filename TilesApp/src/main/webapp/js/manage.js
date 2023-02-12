@@ -5,6 +5,7 @@ console.log("manage.js start.....!");
 //$(document).ready ==> html or xml부터 실행하고 함수를 실행한다
 //ajax는 비동기 함수, 실행시점을 달리 해주는 이벤트
 $(document).ready(function(){
+	console.log("ready start!");
 	//##################################################
 	/*let clone = $('#template').clone(true);
 	//console.log(clone.find('tr')); //tr의 하위요소
@@ -14,11 +15,11 @@ $(document).ready(function(){
 	
 	//##################################################
 	//목록을 가져오는 Ajax 호출
-	console.log($('#list'));
+	//console.log($('#list'));
 	$.ajax({
 		url: 'memberList.do',
 		success: function(result){
-			console.log(result);
+			//console.log(result);
 			//제이쿼리 forEach 
 			$(result).each(function(idx, item){ //인덱스, 인덱스에 들어있는 값
 				$('#list').append(makeRow(item)); //화면출력
@@ -32,26 +33,25 @@ $(document).ready(function(){
 	//등록버튼 이벤트
 	$('#addBtn').on('click',function(){
 		
-		let fileRepository = [];
+		/*let fileRepository = [];
 		
 		$('input[type="file"]').on('change',function(){
 			fileRepository.push(this.files[0]);
-		});
+		});*/
 		
 		let id = $('#mid').val(); // .val() : element.value 속성을 읽어옴
 		let name = $('#mname').val();
 		let phone = $('#mphone').val();
 		let addr = $('#maddr').val();
 		let img = $('#mimage')[0].files[0];
-		console.log(img);
+		//console.log(img);
 		
-		//
 		let formData = new FormData();
 		formData.append('id', id);
 		formData.append('name', name);
 		formData.append('phone', phone);
 		formData.append('addr', addr);
-		formData.append('img', fileRepository);
+		formData.append('img', img);
 		
 		$.ajax({
 			url: 'addMember.do',
@@ -63,6 +63,7 @@ $(document).ready(function(){
 				// 처리된 정보를 화면에 생성
 				console.log(result);
 				if(result.retCode == 'Success'){
+					alert("등록완료");
 					$('#list').append(makeRow(result.member));	
 				} else{
 					alert("입력 미완");
@@ -73,6 +74,14 @@ $(document).ready(function(){
 				console.log(err);
 			}
 		})
+		
+		//회원 등록 후 input value 초기화
+		$('#mid').val('');
+		$('#mname').val('');
+		$('#mname').val('');
+		$('#mphone').val('');
+		$('#maddr').val('');
+		$('#mimage').val('');
 	});
 });
 
@@ -153,9 +162,9 @@ function updateMemberFnc(e){
 	//console.log(tr.find('input.name').val()); class 지정한 input 불러올 때
 	//console.log(tr.children()); //tr의 하위요소(input)을 읽어옴
 	let tr = $(e.target).parent().parent(); //tr
-	console.log($(e.target).parent().parent());
-	console.log("권한 ", tr.find('td:nth-of-type(5) input').val());//하위요소를 찾고싶다면?
-	console.log("id ", tr.children().eq(0).text());
+	//console.log($(e.target).parent().parent());
+	//console.log("권한 ", tr.find('td:nth-of-type(5) input').val());//하위요소를 찾고싶다면?
+	//console.log("id ", tr.children().eq(0).text());
 	let id = tr.children().eq(0).text();
 	let name = tr.find('td:nth-of-type(2) input').val();
 	let phone = tr.find('td:nth-of-type(3) input').val();

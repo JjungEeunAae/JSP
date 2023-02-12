@@ -1,42 +1,74 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<style>
+.myPageTable{
+	width: 50%;
+	margin:auto;
+	taxt-align:center;
+}
+.myPageUpdateInput{
+	width: 400px;
+	border-radius: 10px;
+	padding: 10px;
+}
+</style>
 <!-- JSTL -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!-- 제이쿼리 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<h3>!!현재 페이지는 myPageForm.do의 결과 mypage.jsp입니다!!</h3>
-<form  id="form" action="modifyMember.do" method="post">
+<h3 align="center">My Page</h3>
+<h5 align="center">modifyMember.do, imageUpload.do</h5>
+<form  id="form" action="modifyMember.do" method="post" >
 	<input
 		type="file" id="fileUpload"
 		accept="image/*" style="display:none"
 		onchange="imageChangeFnc()"> <!--  -->
-	<table class="table">
+	<table class="table myPageTable" >
 		<tr>
 			<th>아이디</th>
-			<td><input type="text" name="mid" value="${vo.memberId}" readonly></td>
+			<td>
+				<input class="myPageUpdateInput" type="text"
+						name="mid" value="${vo.memberId}" readonly>
+			</td>
 		</tr>
 		<tr>
 			<th>이름</th>
-			<td><input type="text" name="mname" value="${vo.memberName}"></td>
+			<td>
+				<input class="myPageUpdateInput" type="text"
+						name="mname" value="${vo.memberName}">
+			</td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>
-			<td><input type="text" name="mpass" value="${vo.memberPw}"></td>
+			<td>
+				<input class="myPageUpdateInput" type="text"
+						name="mpass" value="${vo.memberPw}">
+			</td>
 		</tr>
 		<tr>
 			<th>연락처</th>
-			<td><input type="text" name="mphone" value="${vo.memberPhone}"></td>
+			<td>
+				<input class="myPageUpdateInput" type="tel"
+						name="mphone" value="${vo.memberPhone}">
+			</td>
 		</tr>
 		<tr>
 			<th>주소</th>
-			<td><input type="text" name="maddr" value="${vo.memberAddr}"></td>
+			<td>
+				<input class="myPageUpdateInput" type="text"
+				name="maddr" value="${vo.memberAddr}">
+			</td>
 		</tr>
 		<tr>
 			<th>이미지</th>
-			<td><img id="imgSrc" width="150px" src="upload/${vo.image}"></td>
+			<td>
+				<img id="imgSrc" width="150px" src="upload/${vo.image}">
+			</td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center"><input id="modifyBtn" type="button" onclick="updateMemberFnc(event)" value="수정"></td>
+			<td colspan="2" align="center">
+				<input id="modifyBtn" type="button" onclick="updateMemberFnc(event)" value="수정">
+			</td>
 		</tr> <!-- submit -->
 	</table>
 </form>
@@ -77,7 +109,7 @@
 				console.log(err);
 			}
 		})
-	} // end of updateMemberFnc;
+	} // end of updateMemberFnc
 
 
 	//js event 등록 == addEventListener('type',function(){})

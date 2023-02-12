@@ -2,23 +2,26 @@
     pageEncoding="UTF-8"%>
 <h3 style="text-align: center">글 등 록</h3>
 <form action="noticeAdd.do" enctype="multipart/form-data" method="post">
-	<table class="table">
+	<table class="table"
+			style="width: 70%; margin:auto; taxt-align:center;">
 		<tr>
-			<th>제목</th>
+			<th style="width: 200px">제목</th>
 			<td>
-				<input type="text" name="title">
+				<input type="text" name="title" style="width: 500px">
 			</td>
 		</tr>
 		<tr>
 			<th>내용</th>
 			<td>
-				<textarea name="subjcet" cols="50" rows="10"></textarea>
+				<textarea name="subjcet" cols="70" rows="15"></textarea>
 			</td>
 		</tr>
 		<tr>
 			<th>작성자</th>
 			<td>
-				<input type="text" name="writer" value="${id}" readonly>
+				<input type="text" name="writer"
+						value="${id}" readonly
+						style="width: 400px; border:none;">
 			</td>
 		</tr>
 		<tr>

@@ -31,6 +31,7 @@ public class ReplyList implements Command {
 						.create();
 		String json = gson.toJson(list); // {"id":100,"reply":"test"...}
 		
+		//System.out.println(json);
 		//
 		return json + ".json";
 	}

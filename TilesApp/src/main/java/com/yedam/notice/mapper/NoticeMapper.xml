@@ -36,7 +36,8 @@
    	
    	<!-- 댓글목록 -->
    	<select id="replyList" resultType="ReplyVO">
-   	 SELECT * FROM tbl_reply
+   	 SELECT *
+   	 FROM tbl_reply
    	 WHERE notice_id = #{nid}
    	 ORDER BY reply_id
    	</select>

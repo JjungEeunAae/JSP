@@ -7,7 +7,7 @@
 		text-align:center;
 	}
 </style>
-    <table class="table">
+    <table class="table table-hover">
     	<thead>
 	    	<tr>
 	    		<th>글번호</th>
