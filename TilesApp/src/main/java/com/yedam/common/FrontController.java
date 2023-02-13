@@ -27,17 +27,25 @@ public class FrontController extends HttpServlet{
 		//web.xml -> <init-param><param-name>charset</param-name></init-param>
 		charset = config.getInitParameter("charset");
 		
-		//test용
+		// test용
 		map.put("/main.do", new MainControl());
 		map.put("/second.do", new SencondControl());
-		//공지사항목록
+		// 공지사항목록
 		map.put("/noticeList.do", new NoticeList());
-		//상세보기
+		// 공지사항 API 활용(bxslider)
+		map.put("/noticeListWithTables.do", new NoticeListTable());
+		// 상세보기
 		map.put("/noticeDetail.do", new NoticeDetail());
-		//글등록 페이지
+		// 글등록 페이지
 		map.put("/noticeForm.do", new NoticeForm());
-		//글등록 처리
+		// 글등록 처리
 		map.put("/noticeAdd.do", new NoticeAdd());
+		// 글등록 API 활용(datatable)
+		map.put("/noticeAddJson.do", new NoticeAddJson());
+		// 글목록 API 활용(datatable)
+		map.put("/noticeListJson.do", new NoticeListJson());
+		// 글목록 API 활용 view Page
+		map.put("/noticeListAjax.do", new NoticeListAjax());
 		
 		// 댓글-------------------------------------
 		//댓글 목록

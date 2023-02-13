@@ -12,8 +12,11 @@
    </select>
    
    <insert id="insertNotice" parameterType="NoticeVO">
+   <selectKey keyProperty="noticeId" resultType="int" order="BEFORE">
+   	  SELECT notice_seq.nextval FROM dual
+   	 </selectKey>
     INSERT INTO tal_notice (notice_id, notice_writer, notice_title, notice_subject, attach_file)
-	VALUES(notice_seq.nextval, #{noticeWriter}, #{noticeTitle}, #{noticeSubject}, #{attachFile})
+	VALUES(${noticeId}, #{noticeWriter}, #{noticeTitle}, #{noticeSubject}, #{attachFile})
    </insert>
    
    <update id="updateNotice" parameterType="NoticeVO">
