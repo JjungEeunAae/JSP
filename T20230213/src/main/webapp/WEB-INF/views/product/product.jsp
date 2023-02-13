@@ -11,8 +11,8 @@
                  <div class="small mb-1">${vo.productCode}</div>
                  <h1 class="display-5 fw-bolder">${vo.productName}</h1>
                  <div class="fs-5 mb-5">
-                     <span class="text-decoration-line-through">${vo.productPrice}</span>
-                     <span>${vo.salePrice}</span>
+                     <span class="text-decoration-line-through">${vo.productPrice}원</span>
+                     <span>${vo.salePrice}원</span>
                  </div>
                  <p class="lead">${vo.productDesc}</p>
                  <div class="d-flex">
@@ -42,7 +42,7 @@
                      <div class="card-body p-4">
                          <div class="text-center">
                              <!-- Product name-->
-                             <h5 class="fw-bolder">${related.productName}</h5>
+                             <h5 class="fw-bolder"><a href="productDetail.do?pname=${related.productName}">${related.productName}</a></h5>
                              <!-- Product reviews-->
                              <div class="d-flex justify-content-center small text-warning mb-2">
                                  <div class="bi-star-fill"></div>

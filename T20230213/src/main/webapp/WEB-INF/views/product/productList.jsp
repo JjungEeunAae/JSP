@@ -27,8 +27,8 @@
                                  <div class="bi-star-fill"></div>
                              </div>
                              <!-- Product price-->
-                             <span class="text-muted text-decoration-line-through">${product.productPrice}</span>
-                             ${product.salePrice}
+                             <span class="text-muted text-decoration-line-through">${product.productPrice}원</span>
+                             ${product.salePrice}원
                          </div>
                      </div>
                      <!-- Product actions-->
