@@ -67,6 +67,7 @@ $('#addRow').on('click', function () {
 		processData: false,
 		success: function(result){
 			console.log(result);
+			alert("등록완료");
 			//배열에 담는 방식
 		    t.row.add(
 		    			[result.noticeId, 
@@ -80,7 +81,6 @@ $('#addRow').on('click', function () {
 			console.log(reject);
 		}
 	});
-
 });
 
 //tr을 선택하면 스타일을 변경시켜주는 이벤트
@@ -98,10 +98,26 @@ $('#example tbody').on('click', 'tr', function () {
 
 //삭제버튼
 $('#delBtn').on('click', function(){
+	let id = localStorage.getItem('noticeId');
 								//localStorage에 담은 값을 읽어온다
 	console.log('삭제할 글번호 : ' + localStorage.getItem('noticeId'));
 	//console.log('삭제할 글번호2 : ' + t.row('.selected').children().eq(0).text());
-	t.row('.selected').remove().draw(false);
+	$.ajax({
+		url: 'noticeRemove.do',
+		data: {nid : id},
+		success: function(result){
+			console.log(result);
+			if(result.retCode == 'Success'){
+				alert("삭제완료");
+				t.row('.selected').remove().draw(false);
+			} else{
+				alert("삭제오류!");
+			}
+		},
+		error: function(error){
+			console.log(error);
+		}
+	})
 })
 
 // Automatically add a first row of data

@@ -46,6 +46,8 @@ public class FrontController extends HttpServlet{
 		map.put("/noticeListJson.do", new NoticeListJson());
 		// 글목록 API 활용 view Page
 		map.put("/noticeListAjax.do", new NoticeListAjax());
+		// 글삭제
+		map.put("/noticeRemove.do", new NoticeRemove());
 		
 		// 댓글-------------------------------------
 		//댓글 목록

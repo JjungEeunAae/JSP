@@ -40,7 +40,7 @@ var t = $('#example').DataTable({
     columnDefs: [
         {
             targets: 4,
-            render: DataTable.render.datetime('yyyy-MM-dd'),
+            render: DataTable.render.datetime('d MMM yyyy'),
         },
     ],
 });

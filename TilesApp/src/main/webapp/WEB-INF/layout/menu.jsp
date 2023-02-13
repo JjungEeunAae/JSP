@@ -18,8 +18,8 @@
 			<a class="list-group-item list-group-item-action list-group-item-light p-3"
 				href="#!">Events</a>
 			<a class="list-group-item list-group-item-action list-group-item-light p-3"
-				href="#!">Profile</a>
+				href="noticeListAjax.do">noticeListAjax.do</a>
 			<a class="list-group-item list-group-item-action list-group-item-light p-3"
-				href="#!">Status</a>
+				href="noticeListWithTables.do">noticeListWithTables.do</a>
 		</div>
 	</div>
